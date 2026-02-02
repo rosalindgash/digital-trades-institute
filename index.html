@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Digital Trades Institute | Professional AI Literacy</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --primary-navy:#1A202C;
+      --accent-gold:#C5A059;
+      --text-slate:#4A5568;
+      --bg-off-white:#F8F9FA;
+      --white:#FFFFFF;
+      --border-light:#E2E8F0;
+
+      --shadow-sm: 0 6px 18px rgba(0,0,0,0.06);
+      --shadow-md: 0 14px 36px rgba(0,0,0,0.10);
+
+      --radius-lg: 18px;
+      --radius-md: 12px;
+    }
+
+    *{ box-sizing:border-box; margin:0; padding:0; }
+    body{
+      font-family:'Inter', sans-serif;
+      color:var(--primary-navy);
+      line-height:1.7;
+      background:var(--white);
+    }
+    h1,h2,h3{
+      font-family:'Playfair Display', serif;
+      font-weight:700;
+      line-height:1.15;
+      letter-spacing:-0.02em;
+    }
+    p{ color:var(--text-slate); }
+
+    /* Navigation */
+    .nav-bar{
+      padding: 1.2rem 10%;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      border-bottom:1px solid var(--border-light);
+      background:rgba(255,255,255,0.85);
+      backdrop-filter:saturate(180%) blur(10px);
+      position:sticky;
+      top:0;
+      z-index:1000;
+    }
+    .nav-logo{
+      display:flex;
+      flex-direction:column;
+      gap:0.4rem;
+    }
+    .nav-logo-name{
+      color: var(--accent-gold);
+      font-weight: 900;
+      letter-spacing: 0.3px;
+      font-size: 1.25rem;
+      line-height: 1.2;
+    }
+    .nav-tagline{
+      font-size: 0.73rem;
+      color: var(--text-slate);
+      font-weight: 500;
+      line-height: 1.3;
+      max-width: 320px;
+      white-space: nowrap;
+    }
+    .nav-links{ display:flex; gap:2.2rem; align-items:center; }
+    .nav-links a{
+      text-decoration:none;
+      color:var(--text-slate);
+      font-size:0.83rem;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      transition: color 0.2s ease;
+      padding: 0.4rem 0;
+      position:relative;
+    }
+    .nav-links a:hover{ color:var(--accent-gold); }
+    .nav-links a::after{
+      content:"";
+      position:absolute;
+      left:0; right:0; bottom:-6px;
+      height:2px;
+      background:transparent;
+      transition: background 0.2s ease;
+    }
+    .nav-links a:hover::after{ background: rgba(197,160,89,0.5); }
+
+    .nav-cta{
+      display:none;
+      background:var(--primary-navy);
+      color:var(--white);
+      text-decoration:none;
+      padding:0.65rem 1rem;
+      border-radius:999px;
+      font-weight:700;
+      font-size:0.82rem;
+      letter-spacing:0.5px;
+    }
+
+    /* Hero */
+    .hero{
+      position:relative;
+      overflow:hidden;
+      padding: 110px 10% 70px;
+      display:grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 3.5rem;
+      align-items:center;
+      background:
+        radial-gradient(1100px 600px at 10% 10%, rgba(197,160,89,0.14), transparent 60%),
+        radial-gradient(900px 520px at 90% 20%, rgba(26,32,44,0.08), transparent 55%),
+        linear-gradient(180deg, #FAFBFC, #FFFFFF);
+    }
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:-120px -120px auto auto;
+      width:420px; height:420px;
+      background: radial-gradient(circle at 30% 30%, rgba(197,160,89,0.24), rgba(197,160,89,0.05), transparent 70%);
+      filter: blur(0px);
+      transform: rotate(12deg);
+      pointer-events:none;
+    }
+
+    .hero-kicker{
+      display:inline-flex;
+      gap:0.6rem;
+      align-items:center;
+      padding: 0.35rem 0.75rem;
+      border: 1px solid rgba(226,232,240,0.9);
+      background: rgba(255,255,255,0.7);
+      border-radius: 999px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 1.2rem;
+      color: var(--primary-navy);
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+    .hero-kicker span{
+      display:inline-block;
+      width:8px; height:8px;
+      border-radius:50%;
+      background: var(--accent-gold);
+      box-shadow: 0 0 0 4px rgba(197,160,89,0.18);
+    }
+
+    .hero-content h1{
+      font-size: 3.25rem;
+      margin-bottom: 1.1rem;
+      color: var(--primary-navy);
+    }
+    .hero-content p{
+      font-size: 1.12rem;
+      margin-bottom: 1.8rem;
+      max-width: 36rem;
+    }
+
+    .hero-actions{
+      display:flex;
+      gap: 1rem;
+      align-items:center;
+      flex-wrap:wrap;
+      margin-bottom: 1.6rem;
+    }
+    .btn-primary{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      background: var(--primary-navy);
+      color: var(--white);
+      padding: 1.05rem 1.55rem;
+      text-decoration:none;
+      font-weight: 800;
+      font-size: 0.9rem;
+      letter-spacing: 0.6px;
+      border-radius: 999px;
+      transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: var(--shadow-sm);
+    }
+    .btn-primary:hover{
+      background: var(--accent-gold);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    .btn-secondary{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 1.0rem 1.2rem;
+      text-decoration:none;
+      font-weight: 800;
+      font-size: 0.9rem;
+      letter-spacing: 0.4px;
+      color: var(--primary-navy);
+      border-radius: 999px;
+      border: 1px solid rgba(26,32,44,0.16);
+      background: rgba(255,255,255,0.6);
+      transition: transform 0.2s ease, border 0.2s ease, background 0.2s ease;
+    }
+    .btn-secondary:hover{
+      transform: translateY(-2px);
+      border-color: rgba(197,160,89,0.55);
+      background: rgba(255,255,255,0.92);
+    }
+
+    .trust-bar{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.9rem;
+      max-width: 42rem;
+    }
+    .trust-item{
+      display:flex;
+      gap: 0.75rem;
+      align-items:flex-start;
+      background: rgba(255,255,255,0.85);
+      border: 1px solid rgba(226,232,240,0.95);
+      border-radius: var(--radius-md);
+      padding: 0.85rem 0.95rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .trust-icon{
+      width: 30px; height: 30px;
+      border-radius: 10px;
+      display:grid; place-items:center;
+      background: rgba(197,160,89,0.16);
+      border: 1px solid rgba(197,160,89,0.25);
+      flex: 0 0 auto;
+    }
+    .trust-item h4{
+      font-family:'Inter', sans-serif;
+      font-size:0.9rem;
+      line-height:1.2;
+      margin-bottom:0.2rem;
+      color: var(--primary-navy);
+      letter-spacing: -0.01em;
+    }
+    .trust-item p{
+      font-size:0.88rem;
+      line-height:1.35;
+      color: var(--text-slate);
+    }
+
+    .hero-visual{
+      background: rgba(255,255,255,0.75);
+      border: 1px solid rgba(226,232,240,0.95);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      padding: 1rem;
+      position:relative;
+      overflow:hidden;
+    }
+    .hero-visual .caption{
+      margin-top: 0.75rem;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap: 0.75rem;
+      flex-wrap:wrap;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap: 0.5rem;
+      border-radius: 999px;
+      padding: 0.45rem 0.8rem;
+      font-weight: 800;
+      font-size: 0.78rem;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      background: rgba(26,32,44,0.05);
+      border: 1px solid rgba(26,32,44,0.10);
+      color: var(--primary-navy);
+    }
+    .caption small{ color: var(--text-slate); font-size: 0.86rem; }
+
+    /* Section base */
+    .section-padding{ padding: 90px 10%; }
+    .section-header{
+      text-align:center;
+      margin-bottom: 3.5rem;
+      max-width: 850px;
+      margin-left:auto;
+      margin-right:auto;
+    }
+    .section-header h2{ font-size: 2.4rem; margin-bottom: 0.8rem; }
+    .section-header p{ font-size: 1.05rem; }
+
+    #pricing .section-header{ margin-bottom: 2rem; }
+
+    /* How it works */
+    .how-grid{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.2rem;
+      margin-top: 2.2rem;
+    }
+    .how-card{
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 1.7rem 1.6rem;
+      background: var(--white);
+      box-shadow: var(--shadow-sm);
+    }
+    .how-card h3{
+      font-size: 1.35rem;
+      margin-bottom: 0.5rem;
+    }
+    .how-card p{ font-size: 0.98rem; }
+
+    /* Certificate cards */
+    .cert-grid{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.6rem;
+    }
+    .cert-card{
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 2.4rem 2.0rem;
+      background: var(--white);
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s ease, border 0.2s ease, box-shadow 0.2s ease;
+    }
+    .cert-card:hover{
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+      border-color: rgba(197,160,89,0.35);
+    }
+    .cert-card.featured{
+      border: 2px solid rgba(197,160,89,0.95);
+      background: linear-gradient(180deg, #FFFFFF, #FFFEFC);
+    }
+    .cert-tag{
+      font-size: 0.76rem;
+      color: var(--accent-gold);
+      text-transform: uppercase;
+      font-weight: 900;
+      letter-spacing: 1.4px;
+      margin-bottom: 0.75rem;
+      display:block;
+    }
+    .cert-card h3{
+      font-size: 1.55rem;
+      margin-bottom: 0.9rem;
+    }
+    .cert-card p{ font-size: 0.98rem; }
+    .course-list{
+      list-style:none;
+      margin: 1.3rem 0 1.6rem;
+      padding:0;
+    }
+    .course-list li{
+      font-size: 0.95rem;
+      margin-bottom: 0.65rem;
+      color: var(--text-slate);
+      padding-left: 1.5rem;
+      position:relative;
+    }
+    .course-list li::before{
+      content:"✓";
+      position:absolute;
+      left:0;
+      color: var(--accent-gold);
+      font-weight: 900;
+    }
+    .price{
+      display:flex;
+      align-items:baseline;
+      gap: 0.5rem;
+      margin-top: 0.4rem;
+      color: var(--primary-navy);
+    }
+    .price strong{ font-size: 1.05rem; }
+    .price span{ font-size: 0.9rem; color: var(--text-slate); }
+
+    /* Tuition */
+    .tuition-section{ background: var(--bg-off-white); }
+    .tuition-wrap{
+      max-width: 980px;
+      margin: 0 auto;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 1.4rem;
+    }
+    .pricing-wrap{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+    .tuition-note{
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(226,232,240,0.95);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem 1.3rem;
+      box-shadow: var(--shadow-sm);
+      color: var(--text-slate);
+      font-size: 0.98rem;
+      margin-bottom: 2.8rem;
+    }
+    .tuition-table{
+      width:100%;
+      border-collapse: collapse;
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      overflow:hidden;
+      box-shadow: var(--shadow-md);
+    }
+    .tuition-table th, .tuition-table td{
+      padding: 1.25rem 1.5rem;
+      text-align:left;
+      border-bottom: 1px solid var(--border-light);
+      font-size: 0.98rem;
+    }
+    .tuition-table th{
+      background: var(--primary-navy);
+      color: var(--white);
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      letter-spacing: 1px;
+      font-weight: 900;
+    }
+    .level1{ background: rgba(197,160,89,0.08); }
+    .level2{ background: rgba(197,160,89,0.14); }
+    .level3{ background: rgba(197,160,89,0.08); }
+
+    .row-highlight{
+      background: #FFF9EE;
+      font-weight: 900;
+    }
+    .row-highlight td{ border-bottom: none; }
+
+    /* FAQ */
+    .faq-grid{
+      max-width: 980px;
+      margin: 0 auto;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .faq{
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      background: var(--white);
+      padding: 1.4rem 1.4rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .faq h3{
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+    .faq p{ font-size: 0.98rem; }
+
+    /* Roadmap */
+    .roadmap-list{ margin-top: 0.9rem; padding-left: 1.2rem; }
+    .roadmap-list li{ margin: 0.35rem 0; color: var(--primary-navy); }
+
+    .roadmap{
+      text-align:center;
+      border-top: 1px solid var(--border-light);
+      padding: 70px 10%;
+      background: linear-gradient(180deg, #FFFFFF, #FAFBFC);
+    }
+
+    /* Waitlist */
+    .waitlist-section{
+      background: var(--primary-navy);
+      color: var(--white);
+      padding: 95px 10%;
+      text-align:center;
+    }
+    .waitlist-container{
+      max-width: 620px;
+      margin: 0 auto;
+    }
+    .waitlist-section h2{ margin-bottom: 0.7rem; color: var(--white); }
+    .waitlist-section p{ color: rgba(255,255,255,0.82); }
+
+    .form-group{ margin-bottom: 1.0rem; }
+    .form-input{
+      width:100%;
+      padding: 1.05rem 1.05rem;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.22);
+      color: var(--white);
+      font-family: inherit;
+      border-radius: 12px;
+      transition: border 0.2s ease, background 0.2s ease;
+    }
+    .form-input::placeholder{ color: rgba(255,255,255,0.65); }
+    .form-input:focus{
+      outline:none;
+      border-color: rgba(197,160,89,0.95);
+      background: rgba(255,255,255,0.09);
+    }
+    select.form-input{ color: rgba(255,255,255,0.82); }
+    select.form-input option{ color: var(--primary-navy); }
+
+    .btn-submit{
+      width:100%;
+      background: var(--accent-gold);
+      color: var(--primary-navy);
+      padding: 1.05rem;
+      border:none;
+      border-radius: 999px;
+      font-weight: 950;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor:pointer;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+    .btn-submit:hover{ opacity: 0.95; transform: translateY(-2px); }
+
+    .fineprint{
+      margin-top: 1.2rem;
+      font-size: 0.86rem;
+      color: rgba(255,255,255,0.72);
+    }
+
+    footer{
+      padding: 34px 10%;
+      font-size: 0.88rem;
+      color: var(--text-slate);
+      border-top: 1px solid var(--border-light);
+      display:flex;
+      justify-content:space-between;
+      gap: 1rem;
+      flex-wrap:wrap;
+    }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .hero{ grid-template-columns: 1fr; padding-top: 92px; }
+      .hero-visual{ max-width: 620px; margin: 0 auto; }
+      .trust-bar{ grid-template-columns: 1fr; }
+      .hero-content h1{ font-size: 2.75rem; }
+      .how-grid{ grid-template-columns: 1fr; }
+      .cert-grid{ grid-template-columns: 1fr; }
+      .faq-grid{ grid-template-columns: 1fr; }
+      .nav-cta{ display:inline-flex; }
+    }
+
+    @media (max-width: 520px){
+      .nav-links{ display:none; }
+      .hero-content h1{ font-size: 2.35rem; }
+      .section-padding{ padding: 70px 7%; }
+      .hero{ padding-left: 7%; padding-right: 7%; }
+      .nav-bar{ padding-left: 7%; padding-right: 7%; }
+      footer{ padding-left: 7%; padding-right: 7%; }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="nav-bar">
+    <div class="nav-logo"><span class="nav-logo-name">Digital Trades Institute</span><div class="nav-tagline">Modern, modular, self-paced training for the new-collar workforce.</div></div>
+    <div class="nav-links">
+      <a href="#curriculum">Curriculum</a>
+      <a href="#tuition">Tuition</a>
+      <a href="#access">Early Access</a>
+    </div>
+    <a class="nav-cta" href="#access">Join Waitlist</a>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-content">
+      <div class="hero-kicker"><span aria-hidden="true"></span> Self‑paced certificates for working adults</div>
+      <h1>AI skills you can actually use at work.</h1>
+      <p>
+        The Digital Trades Institute teaches practical AI literacy in plain language—so you can use modern tools
+        confidently, without hype, intimidation, or “tech bro” noise.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#access" class="btn-primary">Request Priority Access</a>
+        <a href="#curriculum" class="btn-secondary">View Curriculum</a>
+      </div>
+
+      <div class="trust-bar" aria-label="Trust and reassurance">
+        <div class="trust-item">
+          <div class="trust-icon" aria-hidden="true">
+            <!-- Shield -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2l8 4v6c0 5-3.5 9.4-8 10-4.5-.6-8-5-8-10V6l8-4z" stroke="#C5A059" stroke-width="2" />
+              <path d="M8 12l2.5 2.5L16 9" stroke="#1A202C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div>
+            <h4>Clear, real outcomes</h4>
+            <p>Skills, templates, and workflows you can reuse—no fluff.</p>
+          </div>
+        </div>
+
+        <div class="trust-item">
+          <div class="trust-icon" aria-hidden="true">
+            <!-- Clock -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M12 22a10 10 0 1 0-10-10 10 10 0 0 0 10 10z" stroke="#C5A059" stroke-width="2"/>
+              <path d="M12 6v6l4 2" stroke="#1A202C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div>
+            <h4>Built for busy schedules</h4>
+            <p>Short modules, self‑paced, designed for adults 30+.</p>
+          </div>
+        </div>
+
+        <div class="trust-item">
+          <div class="trust-icon" aria-hidden="true">
+            <!-- Document -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" stroke="#C5A059" stroke-width="2"/>
+              <path d="M14 2v6h6" stroke="#C5A059" stroke-width="2"/>
+              <path d="M8 13h8M8 17h8" stroke="#1A202C" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div>
+            <h4>Professional presentation</h4>
+            <p>Certificates you can list on LinkedIn and your résumé.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual" aria-label="Hero illustration">
+      <!-- Inline SVG hero image: sophisticated, friendly, “learning dashboard” vibe -->
+      <svg viewBox="0 0 740 540" width="100%" height="auto" role="img" aria-label="Illustration of a learning dashboard with AI workflows">
+        <defs>
+          <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#1A202C" stop-opacity="0.10"/>
+            <stop offset="1" stop-color="#C5A059" stop-opacity="0.18"/>
+          </linearGradient>
+          <linearGradient id="g2" x1="0" y1="1" x2="1" y2="0">
+            <stop offset="0" stop-color="#C5A059" stop-opacity="0.22"/>
+            <stop offset="1" stop-color="#1A202C" stop-opacity="0.10"/>
+          </linearGradient>
+          <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#000000" flood-opacity="0.14" />
+          </filter>
+        </defs>
+
+        <!-- background -->
+        <rect x="0" y="0" width="740" height="540" rx="24" fill="url(#g1)"/>
+        <circle cx="610" cy="90" r="120" fill="url(#g2)" opacity="0.9"/>
+        <circle cx="120" cy="460" r="130" fill="url(#g2)" opacity="0.55"/>
+
+        <!-- main card -->
+        <g filter="url(#shadow)">
+          <rect x="80" y="70" width="580" height="400" rx="22" fill="#FFFFFF" opacity="0.98"/>
+        </g>
+
+        <!-- header bar -->
+        <rect x="110" y="105" width="520" height="46" rx="14" fill="#F8F9FA" stroke="#E2E8F0"/>
+        <circle cx="135" cy="128" r="7" fill="#C5A059" opacity="0.95"/>
+        <circle cx="160" cy="128" r="7" fill="#1A202C" opacity="0.18"/>
+        <circle cx="185" cy="128" r="7" fill="#1A202C" opacity="0.12"/>
+        <rect x="220" y="118" width="140" height="20" rx="10" fill="#1A202C" opacity="0.08"/>
+        <rect x="380" y="118" width="230" height="20" rx="10" fill="#1A202C" opacity="0.05"/>
+
+        <!-- left panel -->
+        <rect x="110" y="170" width="220" height="270" rx="18" fill="#FFFFFF" stroke="#E2E8F0"/>
+        <text x="135" y="206" font-family="Inter, sans-serif" font-size="16" font-weight="700" fill="#1A202C">Your Path</text>
+
+        <!-- module pills -->
+        <g>
+          <rect x="135" y="226" width="170" height="34" rx="12" fill="#FFF9EE" stroke="#C5A059" opacity="0.95"/>
+          <text x="150" y="249" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#1A202C">Level 1 • Foundations</text>
+
+          <rect x="135" y="274" width="170" height="34" rx="12" fill="#F8F9FA" stroke="#E2E8F0"/>
+          <text x="150" y="297" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#4A5568">Level 2 • Applied</text>
+
+          <rect x="135" y="322" width="170" height="34" rx="12" fill="#F8F9FA" stroke="#E2E8F0"/>
+          <text x="150" y="345" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#4A5568">Level 3 • Leadership</text>
+        </g>
+
+        <!-- right panel -->
+        <rect x="350" y="170" width="280" height="150" rx="18" fill="#FFFFFF" stroke="#E2E8F0"/>
+        <text x="375" y="206" font-family="Inter, sans-serif" font-size="16" font-weight="700" fill="#1A202C">Workflow Lab</text>
+        <text x="375" y="231" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="#4A5568">Learn prompts, checklists, and reusable templates.</text>
+
+        <!-- cards inside right panel -->
+        <rect x="375" y="248" width="235" height="22" rx="11" fill="#1A202C" opacity="0.07"/>
+        <rect x="375" y="278" width="190" height="22" rx="11" fill="#1A202C" opacity="0.06"/>
+        <rect x="375" y="308" width="220" height="22" rx="11" fill="#1A202C" opacity="0.05"/>
+
+        <!-- bottom wide panel -->
+        <rect x="350" y="340" width="280" height="100" rx="18" fill="#FFFFFF" stroke="#E2E8F0"/>
+        <text x="375" y="374" font-family="Inter, sans-serif" font-size="16" font-weight="700" fill="#1A202C">Progress</text>
+        <text x="375" y="399" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="#4A5568">Track modules at your pace.</text>
+        <rect x="375" y="413" width="235" height="14" rx="7" fill="#E2E8F0"/>
+        <rect x="375" y="413" width="145" height="14" rx="7" fill="#C5A059"/>
+
+        <!-- subtle corner checkmark -->
+        <g opacity="0.9">
+          <circle cx="610" cy="430" r="26" fill="#FFF9EE" stroke="#C5A059"/>
+          <path d="M599 430l8 8 15-18" fill="none" stroke="#1A202C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+      </svg>
+
+      <div class="caption">
+        <div class="badge">Made for adults • no prior AI experience required</div>
+        <small>Structured learning. Real-world examples. Practical templates.</small>
+      </div>
+    </div>
+  </header>
+
+  <section class="section-padding" id="how">
+    <div class="section-header">
+      <h2>Friendly, structured, and built for real life.</h2>
+      <p>
+        Three simple steps to go from curious to confident. Learn the essentials, practice with real tools, and earn credentials that matter in your field.
+      </p>
+    </div>
+
+    <div class="how-grid">
+      <div class="how-card">
+        <h3>Learn the essentials</h3>
+        <p>Understand how modern AI works (and where it fails) without math-heavy detours or hype.</p>
+      </div>
+      <div class="how-card">
+        <h3>Practice with templates</h3>
+        <p>Use ready-to-go prompt patterns, checklists, and workflows you can adapt immediately.</p>
+      </div>
+      <div class="how-card">
+        <h3>Earn a credential</h3>
+        <p>Complete a full level to earn a certificate, or take a single module when you just need one skill.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="curriculum" class="section-padding">
+    <div class="section-header">
+      <h2>Build skills across three levels</h2>
+      <p>Progress from practical foundations to applied workflows and leadership-level decision-making.</p>
+    </div>
+
+    <div class="cert-grid">
+      <div class="cert-card">
+        <span class="cert-tag">Foundational</span>
+        <h3>Level 1: AI Fundamentals</h3>
+        <p>An entry point for the digitally curious—designed for confident basics, not overwhelm.</p>
+        <ul class="course-list">
+          <li>Understanding AI Foundations</li>
+          <li>Digital Research & Information Literacy</li>
+          <li>Data Literacy Basics</li>
+          <li>Digital Writing & Communication</li>
+        </ul>
+      </div>
+
+      <div class="cert-card featured">
+        <span class="cert-tag">Applied</span>
+        <h3>Level 2: Applied AI</h3>
+        <p>Bring AI into everyday work: productivity, coordination, and repeatable workflows.</p>
+        <ul class="course-list">
+          <li>Applied AI Workflows</li>
+          <li>AI‑Powered Productivity & Automation</li>
+          <li>Workflow Design & Optimization</li>
+          <li>Digital Project Coordination</li>
+        </ul>
+      </div>
+
+      <div class="cert-card">
+        <span class="cert-tag">Leadership</span>
+        <h3>Level 3: AI Leadership</h3>
+        <p>Make smart decisions about AI adoption, risk, and quality—without becoming a developer.</p>
+        <ul class="course-list">
+          <li>Human‑Centered AI Design</li>
+          <li>AI Policy, Governance & Risk</li>
+          <li>Organizational AI Adoption</li>
+          <li>Safety, Reliability & Oversight</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing" class="section-padding pricing-section">
+    <div class="section-header">
+      <h2>Transparent pricing</h2>
+      <p>No hidden fees. What you see is what you pay.</p>
+    </div>
+
+    <div class="pricing-wrap">
+      <div class="pricing-note">
+        <strong>What you're paying for:</strong> structured lessons, guided exercises, downloadable templates, and a certificate upon completion of each level. The goal is confidence and competence—not information overload.
+      </div>
+
+      <table class="tuition-table" aria-label="Pricing table">
+        <thead>
+          <tr>
+            <th>Learning Option</th>
+            <th>Pricing</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="level1"><td>Level 1: Individual Module</td><td>$49</td></tr>
+          <tr class="level1"><td>Level 1: Full Certificate</td><td>$169</td></tr>
+
+          <tr class="level2"><td>Level 2: Individual Module</td><td>$69</td></tr>
+          <tr class="level2"><td>Level 2: Full Certificate</td><td>$229</td></tr>
+
+          <tr class="level3"><td>Level 3: Individual Module</td><td>$89</td></tr>
+          <tr class="level3"><td>Level 3: Full Certificate</td><td>$289</td></tr>
+
+          <tr class="row-highlight"><td>Full Program Bundle (Levels 1–3)</td><td>$549</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section-padding" id="faq">
+    <div class="section-header">
+      <h2>FAQ</h2>
+    </div>
+
+    <div class="faq-grid">
+      <div class="faq">
+        <h3>Is this beginner-friendly?</h3>
+        <p>Yes. The program is designed for adults with no formal tech background. We move steadily, explain terms, and focus on practical use.</p>
+      </div>
+      <div class="faq">
+        <h3>Will I need special software?</h3>
+        <p>No special setup required to learn. If a tool is optional, we’ll provide alternatives and show the concept in a tool-agnostic way.</p>
+      </div>
+      <div class="faq">
+        <h3>Is there a schedule?</h3>
+        <p>It’s self‑paced. You can take one module, complete a full level, or work through all three levels over time.</p>
+      </div>
+      <div class="faq">
+        <h3>What do I get when I finish?</h3>
+        <p>You’ll earn a certificate for each level completed, plus reusable prompts, checklists, and workflow templates.</p>
+      </div>
+      <div class="faq">
+        <h3>Is this accredited?</h3>
+        <p>These are professional certificates (not college credit). The goal is real workplace skill—fast, practical, and credible.</p>
+      </div>
+      <div class="faq">
+        <h3>How does early access work?</h3>
+        <p>Join the waitlist below. You’ll be notified when enrollment opens, with founding-member rates and launch updates.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="access" class="waitlist-section">
+    <div class="waitlist-container">
+      <h2>Request priority access</h2>
+      <p>Be first to know when enrollment starts.</p>
+
+      <form action="https://formspree.io/f/xvzqqbad" method="POST" style="margin-top: 2.2rem;">
+        <div class="form-group">
+          <input type="text" name="name" placeholder="Full Name" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <input type="email" name="email" placeholder="Professional Email Address" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <select name="interest" class="form-input" required>
+            <option value="">Primary Area of Interest</option>
+            <option value="l1">Level 1: AI Fundamentals</option>
+            <option value="l2">Level 2: Applied AI</option>
+            <option value="l3">Level 3: AI Leadership</option>
+            <option value="full">Complete Program (All Levels)</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-submit">Register Interest</button>
+      </form>
+
+      <div class="fineprint">
+        We’ll only email you about Digital Trades Institute enrollment and updates. No spam. No selling your info.
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2026 Digital Trades Institute</p>
+    <p>Modern, modular, self‑paced training for the new‑collar workforce.</p>
+  </footer>
+</body>
+</html>
